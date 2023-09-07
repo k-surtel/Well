@@ -1,4 +1,4 @@
-package com.ks.well
+package com.ks.well.core.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,13 +11,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.ks.well.ui.theme.WellTheme
+import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             WellTheme {
-                // A surface container using the 'background' color from the theme
+                val viewModel = getViewModel<MainViewModel>()
+
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
