@@ -2,6 +2,8 @@ package com.ks.well.di
 
 import androidx.room.Room
 import com.ks.well.core.data.data_source.WellDatabase
+import com.ks.well.core.data.repository.MainRepositoryImpl
+import com.ks.well.core.domain.repository.MainRepository
 import com.ks.well.core.presentation.MainViewModel
 import com.ks.well.feature_sleep.data.repository.SleepRepositoryImpl
 import com.ks.well.feature_sleep.domain.repository.SleepRepository
@@ -26,6 +28,7 @@ val databaseModule = module {
 
 val repositoryModule = module {
     single<SleepRepository> { SleepRepositoryImpl(get()) }
+    single<MainRepository> { MainRepositoryImpl(get()) }
 }
 
 val useCaseModule = module {

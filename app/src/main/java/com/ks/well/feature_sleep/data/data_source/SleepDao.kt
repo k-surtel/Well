@@ -4,10 +4,14 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.TypeConverters
+import com.ks.well.core.data.data_source.Converters
 import com.ks.well.feature_sleep.domain.model.Sleep
 import kotlinx.coroutines.flow.Flow
+import java.time.LocalDateTime
 
 @Dao
+@TypeConverters(Converters::class)
 interface SleepDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -15,4 +19,7 @@ interface SleepDao {
 
     @Query("SELECT * FROM sleep")
     fun getSleepRecords(): Flow<List<Sleep>>
+
+    @Query("SELECT * FROM sleep WHERE day = :day")
+    fun getSleepRecordsFromDay(day: LocalDateTime): Flow<List<Sleep>>
 }
