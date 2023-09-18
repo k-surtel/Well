@@ -23,8 +23,14 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.ks.well.core.presentation.components.DatesList
 import com.ks.well.core.presentation.components.DayView
+import com.ks.well.feature_sleep.presentation.add_edit_sleep.AddEditSleepScreen
 import com.ks.well.ui.theme.WellTheme
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -33,19 +39,33 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             WellTheme {
-                val viewModel = getViewModel<MainViewModel>()
+                //val viewModel = getViewModel<MainViewModel>()
 
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Column(
-                        Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.Bottom,
+                    val navController = rememberNavController()
+                    NavHost(
+                        navController = navController,
+                        startDestination = Screen.MainScreen.route
                     ) {
-                        DayView("Sep 24, 2023")
-                        DatesList()
-                        Spacer(modifier = Modifier.height(64.dp))
+                        composable(route = Screen.MainScreen.route) {
+                            MainScreen(navController = navController)
+                        }
+
+                        composable(
+                            route = Screen.AddEditSleepScreen.route +
+                                "?sleepId={sleepId}",
+                            arguments = listOf(
+                                navArgument(name = "sleepId") {
+                                    type = NavType.IntType
+                                    defaultValue = -1
+                                }
+                            )
+                        ) {
+                            AddEditSleepScreen(navController)
+                        }
                     }
                 }
             }

@@ -14,9 +14,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import androidx.navigation.NavController
+import com.ks.well.core.presentation.Screen
 
 @Composable
-fun AddMenuDialog(onDismissRequest: () -> Unit) {
+fun AddMenuDialog(
+    onDismissRequest: () -> Unit,
+    navController: NavController
+) {
     Dialog(onDismissRequest = onDismissRequest) {
         Card(
             modifier = Modifier
@@ -30,7 +35,7 @@ fun AddMenuDialog(onDismissRequest: () -> Unit) {
             ) {
                 Box(
                     Modifier.clickable {
-
+                        navController.navigate(Screen.AddEditSleepScreen.route)
                     }
                         .fillMaxWidth()
                         .height(70.dp),
