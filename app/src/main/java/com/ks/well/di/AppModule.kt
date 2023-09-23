@@ -4,6 +4,8 @@ import androidx.room.Room
 import com.ks.well.core.data.data_source.WellDatabase
 import com.ks.well.core.data.repository.MainRepositoryImpl
 import com.ks.well.core.domain.repository.MainRepository
+import com.ks.well.core.domain.use_case.GetSleepRecordsFromDayUseCase
+import com.ks.well.core.domain.use_case.MainUseCases
 import com.ks.well.core.presentation.MainViewModel
 import com.ks.well.feature_sleep.data.repository.SleepRepositoryImpl
 import com.ks.well.feature_sleep.domain.repository.SleepRepository
@@ -32,6 +34,9 @@ val repositoryModule = module {
 }
 
 val useCaseModule = module {
+    single {GetSleepRecordsFromDayUseCase(get())}
+    single { MainUseCases(get()) }
+
     single { AddSleepUseCase(get()) }
     single { GetSleepRecordsUseCase(get()) }
     single { SleepUseCases(get(), get()) }

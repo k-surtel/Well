@@ -8,7 +8,7 @@ import androidx.room.TypeConverters
 import com.ks.well.core.data.data_source.Converters
 import com.ks.well.feature_sleep.domain.model.Sleep
 import kotlinx.coroutines.flow.Flow
-import java.time.LocalDateTime
+import java.time.LocalDate
 
 @Dao
 @TypeConverters(Converters::class)
@@ -21,5 +21,5 @@ interface SleepDao {
     fun getSleepRecords(): Flow<List<Sleep>>
 
     @Query("SELECT * FROM sleep WHERE day = :day")
-    fun getSleepRecordsFromDay(day: LocalDateTime): Flow<List<Sleep>>
+    fun getSleepRecordsFromDay(day: LocalDate): Flow<List<Sleep>>
 }

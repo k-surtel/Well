@@ -8,7 +8,7 @@ import com.ks.well.feature_sleep.domain.model.Sleep
 
 @Database(
     entities = [Sleep::class],
-    version = 2
+    version = 1
 )
 @TypeConverters(Converters::class)
 abstract class WellDatabase: RoomDatabase() {
