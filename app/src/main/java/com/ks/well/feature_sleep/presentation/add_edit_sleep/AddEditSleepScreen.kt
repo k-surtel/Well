@@ -86,6 +86,7 @@ fun AddEditSleepScreen(
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = {
             viewModel.onEvent(AddEditSleepEvent.SaveSleep(startDate, startTime, endDate, endTime))
+            navController.navigateUp()
         }) {
             Text(text = "Save")
         }

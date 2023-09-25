@@ -1,23 +1,19 @@
 package com.ks.well.core.presentation
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ks.well.core.domain.use_case.MainUseCases
-import com.ks.well.feature_sleep.domain.model.Sleep
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.time.LocalDate
 
 class MainViewModel(
     private val mainUseCases: MainUseCases
 ): ViewModel() {
 
-    private var _selectedDate = MutableStateFlow<LocalDate>(LocalDate.now())
-    var selectedDate: StateFlow<LocalDate> = _selectedDate
-
-    var sleep = emptyList<Sleep>()
+    private val _displayState = mutableStateOf(DisplayState())
+    val displayState: State<DisplayState> = _displayState
 
     init {
         getSleep()
@@ -26,7 +22,7 @@ class MainViewModel(
     fun onEvent(event: MainEvent) {
         when(event) {
             is MainEvent.SelectDate -> {
-                _selectedDate.value = event.date
+                _displayState.value = _displayState.value.copy(selectedDate = event.date)
                 getSleep()
             }
         }
@@ -34,8 +30,8 @@ class MainViewModel(
 
     private fun getSleep() {
         viewModelScope.launch {
-            mainUseCases.getSleepRecordsFromDayUseCase(selectedDate.value).collectLatest {
-                sleep = it
+            mainUseCases.getSleepRecordsFromDayUseCase(displayState.value.selectedDate).collectLatest {
+                _displayState.value = _displayState.value.copy(sleep = it)
             }
         }
 

@@ -34,7 +34,7 @@ fun DayView(
     navController: NavController
 ) {
     val openDialog = remember { mutableStateOf(false) }
-    val date = viewModel.selectedDate.collectAsState()
+    val date = viewModel.displayState.value.selectedDate
 
     Box(
         Modifier
@@ -46,10 +46,10 @@ fun DayView(
     ) {
         val datePattern = "dd.MM.yyyy"
         Column(Modifier.fillMaxWidth()) {
-            Text(text = date.value.format(DateTimeFormatter.ofPattern(datePattern)), fontSize = 24.sp)
+            Text(text = date.format(DateTimeFormatter.ofPattern(datePattern)), fontSize = 24.sp)
             Spacer(modifier = Modifier.height(16.dp))
             LazyColumn {
-                items(viewModel.sleep) {
+                items(viewModel.displayState.value.sleep) {
                     Text("${it.startTime} - ${it.endTime}")
                 }
             }
