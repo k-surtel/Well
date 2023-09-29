@@ -12,7 +12,7 @@ fun SleepView(sleep: List<Sleep>) {
     LazyColumn {
         items(sleep) {
             Text(
-                text = "${it.startTime} - ${it.endTime}",
+                text = "${it.startDateTime} - ${it.endDateTime}",
                 color = MaterialTheme.colorScheme.onSecondaryContainer
             )
         }

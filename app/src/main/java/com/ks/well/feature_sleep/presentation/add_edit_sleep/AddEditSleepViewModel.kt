@@ -14,10 +14,8 @@ class AddEditSleepViewModel(
             is AddEditSleepEvent.SaveSleep -> {
                 viewModelScope.launch {
                     sleepUseCases.addSleepUseCase(
-                        event.startDate,
-                        event.startTime,
-                        event.endDate,
-                        event.endTime
+                        event.startDateTime,
+                        event.endDateTime
                     )
                 }
             }

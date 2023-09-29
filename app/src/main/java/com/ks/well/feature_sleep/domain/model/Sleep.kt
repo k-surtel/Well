@@ -8,7 +8,8 @@ import java.time.LocalDateTime
 @Entity
 data class Sleep(
     @PrimaryKey val id: Int? = null,
-    val startTime: LocalDateTime,
-    val endTime: LocalDateTime,
+    val startDateTime: LocalDateTime,
+    val endDateTime: LocalDateTime,
+    val duration: Long,
     val day: LocalDate
 )
