@@ -15,11 +15,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
+import com.ks.well.core.presentation.MainViewModel
 import com.ks.well.core.presentation.Screen
 
 @Composable
 fun AddMenuDialog(
     onDismissRequest: () -> Unit,
+    viewModel: MainViewModel,
     navController: NavController
 ) {
     Dialog(onDismissRequest = onDismissRequest) {
@@ -35,7 +37,9 @@ fun AddMenuDialog(
             ) {
                 Box(
                     Modifier.clickable {
-                        navController.navigate(Screen.AddEditSleepScreen.route)
+                        val date = viewModel.displayState.value.selectedDate
+                        navController.navigate(Screen.AddEditSleepScreen.route
+                                + "?year=${date.year}&month=${date.monthValue}&day=${date.dayOfMonth}")
                     }
                         .fillMaxWidth()
                         .height(70.dp),

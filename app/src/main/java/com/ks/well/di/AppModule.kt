@@ -44,5 +44,5 @@ val useCaseModule = module {
 
 val viewModelModule = module {
     viewModel { MainViewModel(get()) }
-    viewModel { AddEditSleepViewModel(get()) }
+    viewModel { AddEditSleepViewModel(get(), get()) }
 }

@@ -85,6 +85,7 @@ fun DayView(
     if (openDialog.value) {
         AddMenuDialog(
             onDismissRequest = { openDialog.value = false },
+            viewModel = viewModel,
             navController = navController
         )
     }

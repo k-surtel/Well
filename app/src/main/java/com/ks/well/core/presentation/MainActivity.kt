@@ -56,15 +56,27 @@ class MainActivity : ComponentActivity() {
 
                         composable(
                             route = Screen.AddEditSleepScreen.route +
-                                "?sleepId={sleepId}",
+                                "?sleepId={sleepId}&year={year}&month={month}&day={day}",
                             arguments = listOf(
                                 navArgument(name = "sleepId") {
+                                    type = NavType.IntType
+                                    defaultValue = -1
+                                },
+                                navArgument(name = "year") {
+                                    type = NavType.IntType
+                                    defaultValue = -1
+                                },
+                                navArgument(name = "month") {
+                                    type = NavType.IntType
+                                    defaultValue = -1
+                                },
+                                navArgument(name = "day") {
                                     type = NavType.IntType
                                     defaultValue = -1
                                 }
                             )
                         ) {
-                            AddEditSleepScreen(navController)
+                            AddEditSleepScreen(navController = navController)
                         }
                     }
                 }

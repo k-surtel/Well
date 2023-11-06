@@ -28,7 +28,6 @@ import androidx.navigation.NavController
 import com.ks.well.feature_sleep.presentation.add_edit_sleep.components.DatePicker
 import com.ks.well.feature_sleep.presentation.add_edit_sleep.components.TimePicker
 import org.koin.androidx.compose.getViewModel
-import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 @Composable
@@ -39,10 +38,9 @@ fun AddEditSleepScreen(
     val scope = rememberCoroutineScope()
 
     val timePattern = "HH:mm"
-    val now = LocalDateTime.now()
 
-    var startDateTime by remember { mutableStateOf(now.minusHours(8)) }
-    var endDateTime by remember { mutableStateOf(now) }
+    var startDateTime by remember { mutableStateOf(viewModel.endDateTime.value.minusHours(8)) }
+    var endDateTime by remember { mutableStateOf(viewModel.endDateTime.value) }
 
     val openStartTimePickerDialog = remember { mutableStateOf(false) }
     if(openStartTimePickerDialog.value) {
@@ -112,7 +110,7 @@ fun AddEditSleepScreen(
                 }
                 Text(modifier = Modifier.padding(horizontal = 16.dp), text = "on")
                 Button(onClick = { openStartDatePickerDialog.value = true }) {
-                    Text(text = startDateTime.dayOfWeek.name, fontSize = 20.sp)
+                    Text(text = "${startDateTime.dayOfWeek.name}, ${startDateTime.dayOfMonth}.${startDateTime.monthValue}", fontSize = 20.sp)
                 }
             }
 
@@ -126,7 +124,7 @@ fun AddEditSleepScreen(
                 }
                 Text(modifier = Modifier.padding(horizontal = 16.dp), text = "on")
                 Button(onClick = { openEndDatePickerDialog.value = true }) {
-                    Text(text = endDateTime.dayOfWeek.name, fontSize = 20.sp)
+                    Text(text = "${endDateTime.dayOfWeek.name}, ${endDateTime.dayOfMonth}.${endDateTime.monthValue}", fontSize = 20.sp)
                 }
             }
         }
