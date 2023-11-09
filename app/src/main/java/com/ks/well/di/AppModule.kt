@@ -1,18 +1,18 @@
 package com.ks.well.di
 
 import androidx.room.Room
-import com.ks.well.core.data.data_source.WellDatabase
-import com.ks.well.core.data.repository.MainRepositoryImpl
-import com.ks.well.core.domain.repository.MainRepository
-import com.ks.well.core.domain.use_case.GetSleepRecordsFromDayUseCase
-import com.ks.well.core.domain.use_case.MainUseCases
-import com.ks.well.core.presentation.MainViewModel
-import com.ks.well.feature_sleep.data.repository.SleepRepositoryImpl
-import com.ks.well.feature_sleep.domain.repository.SleepRepository
-import com.ks.well.feature_sleep.domain.use_case.AddSleepUseCase
-import com.ks.well.feature_sleep.domain.use_case.GetSleepRecordsUseCase
-import com.ks.well.feature_sleep.domain.use_case.SleepUseCases
-import com.ks.well.feature_sleep.presentation.add_edit_sleep.AddEditSleepViewModel
+import com.ks.well.data.data_source.WellDatabase
+import com.ks.well.data.repository.MainRepositoryImpl
+import com.ks.well.domain.repository.MainRepository
+import com.ks.well.domain.use_case.GetSleepRecordsFromDayUseCase
+import com.ks.well.domain.use_case.MainUseCases
+import com.ks.well.presentation.main.MainViewModel
+import com.ks.well.data.repository.SleepRepositoryImpl
+import com.ks.well.domain.repository.SleepRepository
+import com.ks.well.domain.use_case.AddSleepUseCase
+import com.ks.well.domain.use_case.GetSleepRecordsUseCase
+import com.ks.well.domain.use_case.SleepUseCases
+import com.ks.well.presentation.add_edit_sleep.AddEditSleepViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -34,7 +34,7 @@ val repositoryModule = module {
 }
 
 val useCaseModule = module {
-    single {GetSleepRecordsFromDayUseCase(get())}
+    single { GetSleepRecordsFromDayUseCase(get()) }
     single { MainUseCases(get()) }
 
     single { AddSleepUseCase(get()) }
