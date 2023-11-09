@@ -10,4 +10,6 @@ interface SleepRepository {
     fun getSleepRecords(): Flow<List<Sleep>>
 
     suspend fun getSleepById(sleepId: Int): Sleep?
+
+    suspend fun deleteSleep(sleep: Sleep)
 }

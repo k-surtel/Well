@@ -19,4 +19,8 @@ class SleepRepositoryImpl(
     override suspend fun getSleepById(sleepId: Int): Sleep? {
         return dao.getSleepById(sleepId)
     }
+
+    override suspend fun deleteSleep(sleep: Sleep) {
+        dao.deleteSleep(sleep)
+    }
 }

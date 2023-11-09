@@ -1,6 +1,7 @@
 package com.ks.well.data.data_source
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -25,4 +26,7 @@ interface SleepDao {
 
     @Query("SELECT * FROM sleep WHERE id = :id")
     suspend fun getSleepById(id: Int): Sleep?
+
+    @Delete
+    suspend fun deleteSleep(sleep: Sleep)
 }

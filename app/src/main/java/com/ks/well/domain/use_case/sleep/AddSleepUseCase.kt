@@ -1,4 +1,4 @@
-package com.ks.well.domain.use_case
+package com.ks.well.domain.use_case.sleep
 
 import com.ks.well.domain.model.Sleep
 import com.ks.well.domain.repository.SleepRepository

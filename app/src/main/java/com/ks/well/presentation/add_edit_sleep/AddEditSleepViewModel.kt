@@ -1,11 +1,13 @@
 package com.ks.well.presentation.add_edit_sleep
 
 import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ks.well.domain.use_case.SleepUseCases
+import com.ks.well.domain.model.Sleep
+import com.ks.well.domain.use_case.sleep.SleepUseCases
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -17,7 +19,10 @@ class AddEditSleepViewModel(
     savedStateHandle: SavedStateHandle
 ): ViewModel() {
 
-    private var sleepId: Int? = null
+    private var sleep: Sleep? = null
+
+    private var _deletable = mutableStateOf(false)
+    var deletable: State<Boolean> = _deletable
 
     private var _startDateTime = mutableStateOf<LocalDateTime>(LocalDateTime.now().minusHours(8))
     var startDateTime: State<LocalDateTime> = _startDateTime
@@ -25,17 +30,18 @@ class AddEditSleepViewModel(
     private var _endDateTime = mutableStateOf<LocalDateTime>(LocalDateTime.now())
     var endDateTime: State<LocalDateTime> = _endDateTime
 
-    var sliderPosition = mutableStateOf(0f)
+    var sliderPosition = mutableFloatStateOf(0f)
 
     init {
         savedStateHandle.get<Int>("sleepId")?.let {id ->
             viewModelScope.launch {
-                val sleep = sleepUseCases.getSleepByIdUseCase(id)
-                sleep?.let {
-                    sleepId = it.id
+                val passedSleep = sleepUseCases.getSleepByIdUseCase(id)
+                passedSleep?.let {
+                    _deletable.value = true
+                    sleep = it
                     _startDateTime.value = it.startDateTime
                     _endDateTime.value = it.endDateTime
-                    sliderPosition.value = it.quality.toFloat()
+                    sliderPosition.floatValue = it.quality.toFloat()
                 }
             }
         }
@@ -73,11 +79,16 @@ class AddEditSleepViewModel(
             is AddEditSleepEvent.SaveSleep -> {
                 viewModelScope.launch {
                     sleepUseCases.addSleepUseCase(
-                        sleepId,
+                        sleep?.id,
                         startDateTime.value,
                         endDateTime.value,
-                        sliderPosition.value.roundToInt()
+                        sliderPosition.floatValue.roundToInt()
                     )
+                }
+            }
+            is AddEditSleepEvent.DeleteSleep -> {
+                viewModelScope.launch {
+                    sleep?.let { sleepUseCases.deleteSleepUseCase(it) }
                 }
             }
 
