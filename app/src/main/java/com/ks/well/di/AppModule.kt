@@ -10,6 +10,7 @@ import com.ks.well.presentation.main.MainViewModel
 import com.ks.well.data.repository.SleepRepositoryImpl
 import com.ks.well.domain.repository.SleepRepository
 import com.ks.well.domain.use_case.AddSleepUseCase
+import com.ks.well.domain.use_case.GetSleepByIdUseCase
 import com.ks.well.domain.use_case.GetSleepRecordsUseCase
 import com.ks.well.domain.use_case.SleepUseCases
 import com.ks.well.presentation.add_edit_sleep.AddEditSleepViewModel
@@ -39,7 +40,8 @@ val useCaseModule = module {
 
     single { AddSleepUseCase(get()) }
     single { GetSleepRecordsUseCase(get()) }
-    single { SleepUseCases(get(), get()) }
+    single { GetSleepByIdUseCase(get()) }
+    single { SleepUseCases(get(), get(), get()) }
 }
 
 val viewModelModule = module {

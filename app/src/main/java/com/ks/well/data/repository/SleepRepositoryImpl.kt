@@ -15,4 +15,8 @@ class SleepRepositoryImpl(
     override fun getSleepRecords(): Flow<List<Sleep>> {
         return dao.getSleepRecords()
     }
+
+    override suspend fun getSleepById(sleepId: Int): Sleep? {
+        return dao.getSleepById(sleepId)
+    }
 }

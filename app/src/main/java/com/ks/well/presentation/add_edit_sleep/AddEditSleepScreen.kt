@@ -15,11 +15,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -40,16 +38,13 @@ fun AddEditSleepScreen(
 
     val timePattern = "HH:mm"
 
-    var startDateTime by remember { mutableStateOf(viewModel.endDateTime.value.minusHours(8)) }
-    var endDateTime by remember { mutableStateOf(viewModel.endDateTime.value) }
-
     val openStartTimePickerDialog = remember { mutableStateOf(false) }
     if(openStartTimePickerDialog.value) {
         TimePicker(
-            initialTime = startDateTime.toLocalTime(),
+            initialTime = viewModel.startDateTime.value.toLocalTime(),
             onDismissRequest = { openStartTimePickerDialog.value = false },
             onTimeChange = {
-            startDateTime = startDateTime.withHour(it.hour).withMinute(it.minute)
+            viewModel.changeStartTime(it.hour, it.minute)
             openStartTimePickerDialog.value = false
         })
     }
@@ -57,10 +52,10 @@ fun AddEditSleepScreen(
     val openStartDatePickerDialog = remember { mutableStateOf(false) }
     if(openStartDatePickerDialog.value) {
         DatePicker(
-            initialDate = startDateTime.toLocalDate(),
+            initialDate = viewModel.startDateTime.value.toLocalDate(),
             onDismissRequest = { openStartDatePickerDialog.value = false },
             onDateChange = {
-                startDateTime = startDateTime.withYear(it.year).withMonth(it.monthValue).withDayOfMonth(it.dayOfMonth)
+                viewModel.changeStartDate(it.year, it.monthValue, it.dayOfMonth)
                 openStartDatePickerDialog.value = false
             })
     }
@@ -68,10 +63,10 @@ fun AddEditSleepScreen(
     val openEndTimePickerDialog = remember { mutableStateOf(false) }
     if(openEndTimePickerDialog.value) {
         TimePicker(
-            initialTime = endDateTime.toLocalTime(),
+            initialTime = viewModel.endDateTime.value.toLocalTime(),
             onDismissRequest = { openEndTimePickerDialog.value = false },
             onTimeChange = {
-                endDateTime = endDateTime.withHour(it.hour).withMinute(it.minute)
+                viewModel.changeEndTime(it.hour, it.minute)
                 openEndTimePickerDialog.value = false
             })
     }
@@ -79,10 +74,10 @@ fun AddEditSleepScreen(
     val openEndDatePickerDialog = remember { mutableStateOf(false) }
     if(openEndDatePickerDialog.value) {
         DatePicker(
-            initialDate = endDateTime.toLocalDate(),
+            initialDate = viewModel.endDateTime.value.toLocalDate(),
             onDismissRequest = { openEndDatePickerDialog.value = false },
             onDateChange = {
-                endDateTime = endDateTime.withYear(it.year).withMonth(it.monthValue).withDayOfMonth(it.dayOfMonth)
+                viewModel.changeEndDate(it.year, it.monthValue, it.dayOfMonth)
                 openEndDatePickerDialog.value = false
             })
     }
@@ -93,7 +88,7 @@ fun AddEditSleepScreen(
                 actions = {},
                 floatingActionButton = {
                     FloatingActionButton(onClick = {
-                        viewModel.onEvent(AddEditSleepEvent.SaveSleep(startDateTime, endDateTime))
+                        viewModel.onEvent(AddEditSleepEvent.SaveSleep)
                         navController.navigateUp()
                     }) {
                         Icon(Icons.Default.Add, contentDescription = "Add")
@@ -111,11 +106,12 @@ fun AddEditSleepScreen(
 
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Button(onClick = { openStartTimePickerDialog.value = true }) {
-                    Text(text = startDateTime.format(DateTimeFormatter.ofPattern(timePattern)), fontSize = 20.sp)
+                    Text(text = viewModel.startDateTime.value.format(DateTimeFormatter.ofPattern(timePattern)), fontSize = 20.sp)
                 }
                 Text(modifier = Modifier.padding(horizontal = 16.dp), text = "on")
                 Button(onClick = { openStartDatePickerDialog.value = true }) {
-                    Text(text = "${startDateTime.dayOfWeek.name}, ${startDateTime.dayOfMonth}.${startDateTime.monthValue}", fontSize = 20.sp)
+                    Text(text = "${viewModel.startDateTime.value.dayOfWeek.name}, " +
+                            "${viewModel.startDateTime.value.dayOfMonth}.${viewModel.startDateTime.value.monthValue}", fontSize = 20.sp)
                 }
             }
 
@@ -125,11 +121,12 @@ fun AddEditSleepScreen(
 
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Button(onClick = { openEndTimePickerDialog.value = true }) {
-                    Text(text = endDateTime.format(DateTimeFormatter.ofPattern(timePattern)), fontSize = 20.sp)
+                    Text(text = viewModel.endDateTime.value.format(DateTimeFormatter.ofPattern(timePattern)), fontSize = 20.sp)
                 }
                 Text(modifier = Modifier.padding(horizontal = 16.dp), text = "on")
                 Button(onClick = { openEndDatePickerDialog.value = true }) {
-                    Text(text = "${endDateTime.dayOfWeek.name}, ${endDateTime.dayOfMonth}.${endDateTime.monthValue}", fontSize = 20.sp)
+                    Text(text = "${viewModel.endDateTime.value.dayOfWeek.name}, " +
+                            "${viewModel.endDateTime.value.dayOfMonth}.${viewModel.endDateTime.value.monthValue}", fontSize = 20.sp)
                 }
             }
 

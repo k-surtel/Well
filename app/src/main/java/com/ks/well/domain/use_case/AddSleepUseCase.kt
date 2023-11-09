@@ -8,9 +8,9 @@ import java.time.LocalDateTime
 class AddSleepUseCase(
     private val repository: SleepRepository
 ) {
-    suspend operator fun invoke(startDateTime: LocalDateTime, endDateTime: LocalDateTime, quality: Int) {
+    suspend operator fun invoke(id: Int?, startDateTime: LocalDateTime, endDateTime: LocalDateTime, quality: Int) {
         if (areDatesValid(startDateTime, endDateTime)) { // todo check if sleep in this time is already in db
-            val sleep = getSleepInstance(startDateTime, endDateTime, quality)
+            val sleep = getSleepInstance(id, startDateTime, endDateTime, quality)
             repository.insertSleep(sleep)
         } else {
             // todo throw exception
@@ -21,9 +21,10 @@ class AddSleepUseCase(
         return endDateTime.isAfter(startDateTime)
     }
 
-    private fun getSleepInstance(startDateTime: LocalDateTime, endDateTime: LocalDateTime, quality: Int): Sleep {
+    private fun getSleepInstance(id: Int?, startDateTime: LocalDateTime, endDateTime: LocalDateTime, quality: Int): Sleep {
         val duration = Duration.between(startDateTime, endDateTime)
         return Sleep(
+            id = id,
             startDateTime = startDateTime,
             endDateTime = endDateTime,
             duration = duration.toMinutes(),

@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.ks.well.presentation.main.MainViewModel
+import com.ks.well.presentation.main.components.features.SleepView
 import java.time.format.DateTimeFormatter
 
 @Composable
@@ -55,7 +56,7 @@ fun DayView(
                 color = MaterialTheme.colorScheme.onSecondaryContainer
             )
             Spacer(modifier = Modifier.height(16.dp))
-            SleepView(sleep = viewModel.displayState.value.sleep)
+            SleepView(navController = navController, sleep = viewModel.displayState.value.sleep)
             Spacer(modifier = Modifier.weight(1f))
 
             Row(

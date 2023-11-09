@@ -22,4 +22,7 @@ interface SleepDao {
 
     @Query("SELECT * FROM sleep WHERE day = :day")
     fun getSleepRecordsFromDay(day: LocalDate): Flow<List<Sleep>>
+
+    @Query("SELECT * FROM sleep WHERE id = :id")
+    suspend fun getSleepById(id: Int): Sleep?
 }
