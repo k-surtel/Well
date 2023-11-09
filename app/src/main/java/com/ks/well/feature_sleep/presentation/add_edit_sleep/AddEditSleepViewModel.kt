@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
+import kotlin.math.roundToInt
 
 class AddEditSleepViewModel(
     private val sleepUseCases: SleepUseCases,
@@ -19,6 +20,9 @@ class AddEditSleepViewModel(
 
     private var _endDateTime = mutableStateOf<LocalDateTime>(LocalDateTime.now())
     var endDateTime: State<LocalDateTime> = _endDateTime
+
+    var sliderPosition = mutableStateOf(0f)
+
     init {
         savedStateHandle.get<Int>("sleepId")?.let {
             Log.d("DEBUGGGGGGG", "sleepId = $it")
@@ -42,7 +46,8 @@ class AddEditSleepViewModel(
                 viewModelScope.launch {
                     sleepUseCases.addSleepUseCase(
                         event.startDateTime,
-                        event.endDateTime
+                        event.endDateTime,
+                        sliderPosition.value.roundToInt()
                     )
                 }
             }

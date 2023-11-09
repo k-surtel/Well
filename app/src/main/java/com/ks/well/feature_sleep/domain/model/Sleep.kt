@@ -11,5 +11,6 @@ data class Sleep(
     val startDateTime: LocalDateTime,
     val endDateTime: LocalDateTime,
     val duration: Long,
-    val day: LocalDate
+    val day: LocalDate,
+    val quality: Int
 )

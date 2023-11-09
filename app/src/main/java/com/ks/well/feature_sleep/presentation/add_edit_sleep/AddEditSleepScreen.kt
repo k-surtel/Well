@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.ks.well.feature_sleep.presentation.add_edit_sleep.components.DatePicker
+import com.ks.well.feature_sleep.presentation.add_edit_sleep.components.QualitySlider
 import com.ks.well.feature_sleep.presentation.add_edit_sleep.components.TimePicker
 import org.koin.androidx.compose.getViewModel
 import java.time.format.DateTimeFormatter
@@ -101,7 +102,11 @@ fun AddEditSleepScreen(
             )
         }
     ) {
-        Column(Modifier.fillMaxSize().padding(it).padding(16.dp)) {
+        Column(
+            Modifier
+                .fillMaxSize()
+                .padding(it)
+                .padding(16.dp)) {
             Row { Text(text = "Fell asleep", fontSize = 40.sp) }
 
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -126,6 +131,14 @@ fun AddEditSleepScreen(
                 Button(onClick = { openEndDatePickerDialog.value = true }) {
                     Text(text = "${endDateTime.dayOfWeek.name}, ${endDateTime.dayOfMonth}.${endDateTime.monthValue}", fontSize = 20.sp)
                 }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Row { Text(text = "Sleep quality", fontSize = 40.sp) }
+
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                QualitySlider(viewModel.sliderPosition)
             }
         }
     }
